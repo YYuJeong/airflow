@@ -25,7 +25,7 @@ with DAG(
     )
     
     def common_func(**kwargs):
-        print(kwargs['selected'])
+        print('여기여기: ',kwargs['selected'])
 
     task_a = PythonOperator(
         task_id='task_a',

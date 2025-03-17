@@ -9,15 +9,18 @@ def print_hello():
 # DAG (Directed Acyclic Graph) 정의
 with DAG(
     dag_id="python_operator_example",  # DAG의 고유한 식별자
-    schedule_interval=None,  # 스케줄링을 사용하지 않음 (수동 실행)
-    start_date=datetime.datetime(2021, 1, 1),  # DAG 시작 날짜 설정
+    schedule_interval="@once",  # DAG이 활성화될 때 한 번 실행
+    start_date=datetime.datetime(2024, 3, 17),  # 최신 날짜로 설정
+    catchup=False,  # 과거 실행 방지
 ) as dag:
     
     # PythonOperator를 사용한 Task 정의
     hello_task = PythonOperator(
         task_id='hello_task',  # Task의 고유한 ID
-        python_callable=print_hello  # 실행할 Python 함수 지정
+        python_callable=print_hello,  # 실행할 Python 함수 지정
+        dag=dag  # DAG 객체 연결 (명확하게 지정)
     )
     
-    # Task 실행 흐름 정의 (현재는 단일 Task이므로 별도 의존성 없음)
-    hello_task
+    # Task 실행 흐름 정의
+    hello_task  # 단일 Task 실행
+
